@@ -58,10 +58,29 @@ class Device
 
         MonitorConditionsAndUpdateTwinAsync();
 
+        ReceiveC2dAsync();
+
         Console.ReadLine();
         s_gpio.ClosePin(s_pin);
     }
 
+
+    private static async void ReceiveC2dAsync()
+    {
+        Console.WriteLine("\nReceiving cloud to device messages from service");
+        while (true)
+        {
+            Message receivedMessage = await s_deviceClient.ReceiveAsync();
+            if (receivedMessage == null) continue;
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Received message: {0}", 
+            Encoding.ASCII.GetString(receivedMessage.GetBytes()));
+            Console.ResetColor();
+
+            await s_deviceClient.CompleteAsync(receivedMessage);
+        }
+    }
 
     // Async method to send device twin updates.
     private static async void MonitorConditionsAndUpdateTwinAsync()
