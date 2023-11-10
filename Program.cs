@@ -25,7 +25,7 @@ class Device
     private static stateEnum s_fanState = stateEnum.off;                      
 
     // The device connection string to authenticate the device with your IoT hub.
-    private static readonly string s_deviceConnectionString = "HostName=YourIoTHubNameHN.azure-devices.net;DeviceId=TC74;SharedAccessKey=JrbtI4XtvUHnHiRDT8JxINHXE5OgjhGrw8J2XGqlKCs=";
+    private static readonly string s_deviceConnectionString = "HostName=IoT-hub-HN-2023.azure-devices.net;DeviceId=rpi-hn-home;SharedAccessKey=yrfXC9Ox4yjDl4ArDwEqZs6ItOfvNVNaWAIoTCVshbo=";
 
     // Enum for the state of the fan for cooling/heating, and humidifying/de-humidifying.
     enum stateEnum
