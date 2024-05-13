@@ -25,7 +25,7 @@ class Device
     private static stateEnum s_fanState = stateEnum.off;                      
 
     // The device connection string to authenticate the device with your IoT hub.
-    private static readonly string s_deviceConnectionString = "HostName=IoT-hub-HN-2023.azure-devices.net;DeviceId=rpi-hn-home;SharedAccessKey=yrfXC9Ox4yjDl4ArDwEqZs6ItOfvNVNaWAIoTCVshbo=";
+    private static readonly string s_deviceConnectionString = "HostName=iot-hub-embedded2-2024.azure-devices.net;DeviceId=dotnet-iot-hub-voorbereiding;SharedAccessKey=Y7569JF7tqEQ3J4ZO2SOioj8i8usOWh6oO53Kw1vYrg=";
 
     // Enum for the state of the fan for cooling/heating, and humidifying/de-humidifying.
     enum stateEnum
@@ -52,6 +52,8 @@ class Device
 
         // Create the device client and connect to the IoT hub using the MQTT protocol.
         s_deviceClient = DeviceClient.CreateFromConnectionString(s_deviceConnectionString, TransportType.Mqtt);
+
+        Console.WriteLine("Device connected to IoT Hub");
 
         // Create a handler for the direct method call
         s_deviceClient.SetMethodHandlerAsync("SetFanState", SetFanState, null).Wait();
