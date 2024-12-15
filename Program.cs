@@ -25,7 +25,7 @@ class Device
     private static stateEnum s_fanState = stateEnum.off;                      
 
     // The device connection string to authenticate the device with your IoT hub.
-    private static readonly string s_deviceConnectionString = "HostName=iot-hub-embedded2-2024.azure-devices.net;DeviceId=dotnet-iot-hub-voorbereiding;SharedAccessKey=Y7569JF7tqEQ3J4ZO2SOioj8i8usOWh6oO53Kw1vYrg=";
+    private static readonly string s_deviceConnectionString = "HostName=iothubhn2024.azure-devices.net;DeviceId=cheesecave;SharedAccessKey=Mpa1IXtfBqS8UkXt/55K0uB9FRdhkuLeYLuJvhcJKLI=";
 
     // Enum for the state of the fan for cooling/heating, and humidifying/de-humidifying.
     enum stateEnum
@@ -97,6 +97,8 @@ class Device
                     /*sensorOutput.Temperature.Value.DegreesFahrenheit*/temp, 
                     /*sensorOutput.Humidity.Value.Percent*/10);
 
+            await SendTemperatureTelemetryAsync(temp,10);        
+
             await Task.Delay(IntervalInMilliseconds);
         }
     }
@@ -152,6 +154,22 @@ class Device
 
         GreenMessage("Twin state reported: " + reportedProperties.ToJson());
     }
+
+       private static async Task SendTemperatureTelemetryAsync(double currentTemperature, double currentHumidity)
+        {
+            const string telemetryName = "temperature";
+
+            string telemetryPayload = $"{{ \"{telemetryName}\": {currentTemperature} }}";
+            using var message = new Message(Encoding.UTF8.GetBytes(telemetryPayload))
+            {
+                ContentEncoding = "utf-8",
+                ContentType = "application/json",
+            };
+
+            await s_deviceClient.SendEventAsync(message);
+            GreenMessage($"Telemetry: Sent - {{ \"{telemetryName}\": {currentTemperature}°C }}.");
+
+        }
 
     private static void ColorMessage(string text, ConsoleColor clr)
     {
